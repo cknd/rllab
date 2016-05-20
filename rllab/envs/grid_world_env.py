@@ -46,9 +46,9 @@ class GridWorldEnv(Env, Serializable):
 
     def __init__(self, desc='4x4'):
         Serializable.quick_init(self, locals())
-        if isinstance(desc, basestring):
+        if isinstance(desc, str):
             desc = MAPS[desc]
-        self.desc = desc = np.array(map(list, desc))
+        self.desc = desc = np.array(list(map(list, desc)))
         self.n_row, self.n_col = desc.shape
         (start_x,), (start_y,) = np.nonzero(desc == 'S')
         self.start_state = start_x * self.n_col + start_y

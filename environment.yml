@@ -1,12 +1,12 @@
-name: rllab
+name: rllab3
 channels:
-    - https://conda.anaconda.org/kne 
-    - https://conda.binstar.org/tlatorre 
+    - https://conda.anaconda.org/kne
+    - https://conda.binstar.org/tlatorre
     - https://conda.anaconda.org/cjs14
     - https://conda.anaconda.org/menpo
 dependencies:
-    - python==2.7.10
-    - numpy==1.10.4
+    - python==3.4.3
+    - numpy
     - scipy
     - path.py
     - python-dateutil
@@ -18,7 +18,6 @@ dependencies:
     - pygame
     - h5py
     - matplotlib
-    - opencv
     - pip:
         - atari-py
         - pyprind

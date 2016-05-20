@@ -177,7 +177,7 @@ class GatherEnv(Env, Serializable):
         super(GatherEnv, self).__init__(*args, **kwargs)
         model_cls = self.__class__.MODEL_CLASS
         if model_cls is None:
-            raise "MODEL_CLASS unspecified!"
+            raise Exception("MODEL_CLASS unspecified!")
         xml_path = osp.join(MODEL_DIR, model_cls.FILE)
         tree = ET.parse(xml_path)
         worldbody = tree.find(".//worldbody")

@@ -1,13 +1,13 @@
-import glfw
-from mjlib import mjlib
+from . import glfw
+from .mjlib import mjlib
 from ctypes import pointer, byref
 import ctypes
-import mjcore
+from . import mjcore
 import os
 import numpy as np
 from threading import Lock
-from mjconstants import *
-import mjextra
+from .mjconstants import *
+from . import mjextra
 
 mjCAT_ALL = 7
 

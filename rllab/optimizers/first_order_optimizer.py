@@ -58,7 +58,7 @@ class FirstOrderOptimizer(Serializable):
         self._target = target
 
         updates = self._update_method(loss, target.get_params(trainable=True))
-        updates = OrderedDict([(k, v.astype(k.dtype)) for k, v in updates.iteritems()])
+        updates = OrderedDict([(k, v.astype(k.dtype)) for k, v in updates.items()])
 
         if extra_inputs is None:
             extra_inputs = list()
@@ -95,7 +95,7 @@ class FirstOrderOptimizer(Serializable):
 
         dataset = BatchDataset(inputs, self._batch_size, extra_inputs=extra_inputs)
 
-        for epoch in xrange(self._max_epochs):
+        for epoch in range(self._max_epochs):
             if self._verbose:
                 logger.log("Epoch %d" % epoch)
             for batch in dataset.iterate(update=True):

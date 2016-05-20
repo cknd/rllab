@@ -54,12 +54,12 @@ KUBE_DEFAULT_NODE_SELECTOR = {
 try:
     from config_personal import *
 except:
-    print "Creating your personal config from template..."
+    print("Creating your personal config from template...")
     from subprocess import call
     call(["cp", osp.join(PROJECT_PATH, "rllab/config_personal_template.py"), osp.join(PROJECT_PATH, "rllab/config_personal.py")])
     from config_personal import *
-    print "Personal config created, but you should probably edit it before further experiments " \
-          "are run"
+    print("Personal config created, but you should probably edit it before further experiments " \
+          "are run")
     if 'CIRCLECI' not in os.environ:
         import sys; sys.exit(0)
 

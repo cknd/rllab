@@ -34,7 +34,7 @@ class MujocoEnv(Env):
         # compile template
         if file_path is None:
             if self.__class__.FILE is None:
-                raise "Mujoco file not specified"
+                raise Exception("Mujoco file not specified")
             file_path = osp.join(MODEL_DIR, self.__class__.FILE)
         if file_path.endswith(".mako"):
             lookup = mako.lookup.TemplateLookup(directories=[MODEL_DIR])
@@ -203,7 +203,7 @@ class MujocoEnv(Env):
 
     def print_stats(self):
         super(MujocoEnv, self).print_stats()
-        print "qpos dim:\t%d" % len(self.model.data.qpos)
+        print("qpos dim:\t%d" % len(self.model.data.qpos))
 
     def action_from_key(self, key):
         raise NotImplementedError
