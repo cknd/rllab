@@ -14,6 +14,7 @@ def _worker_init(G, id):
 
 
 def initialize(n_parallel):
+    print("parallel_sampler:initialize n_parallel", n_parallel)
     singleton_pool.initialize(n_parallel)
     singleton_pool.run_each(_worker_init, [(id,) for id in range(singleton_pool.n_parallel)])
 

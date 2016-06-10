@@ -81,6 +81,7 @@ class BatchPolopt(RLAlgorithm):
         for itr in range(self.start_itr, self.n_itr):
             with logger.prefix('itr #%d | ' % itr):
                 paths = self.obtain_samples(itr)
+                print("BatchPolopt:train len(paths)", len(paths))
                 samples_data = self.process_samples(itr, paths)
                 self.log_diagnostics(paths)
                 self.optimize_policy(itr, samples_data)
@@ -132,6 +133,8 @@ class BatchPolopt(RLAlgorithm):
             max_samples=self.batch_size,
             max_path_length=self.max_path_length,
         )
+        print("BatchPolopt:obtain_samples len(paths):", len(paths))
+        print("BatchPolopt self.batch_size", self.batch_size)
         if self.whole_paths:
             return paths
         else:
@@ -142,6 +145,7 @@ class BatchPolopt(RLAlgorithm):
 
         baselines = []
         returns = []
+        print("BatchPolopt:process_samples len(paths):", len(paths))
         for path in paths:
             path_baselines = np.append(self.baseline.predict(path), 0)
             deltas = path["rewards"] + \

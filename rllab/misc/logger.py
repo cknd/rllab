@@ -65,7 +65,7 @@ def remove_text_output(file_name):
 
 
 def add_tabular_output(file_name):
-    _add_output(file_name, _tabular_outputs, _tabular_fds, mode='wb')
+    _add_output(file_name, _tabular_outputs, _tabular_fds, mode='wt')
 
 
 def remove_tabular_output(file_name):
