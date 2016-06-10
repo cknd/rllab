@@ -111,7 +111,8 @@ class DDPG(RLAlgorithm):
             n_updates_per_sample=1,
             scale_reward=1.0,
             include_horizon_terminal_transitions=False,
-            plot=False):
+            plot=False,
+            pause_for_plot=False):
         """
         :param env: Environment
         :param policy: Policy
@@ -123,7 +124,7 @@ class DDPG(RLAlgorithm):
         :param min_pool_size: Minimum size of the pool to start training.
         :param replay_pool_size: Size of the experience replay pool.
         :param discount: Discount factor for the cumulative return.
-        :param max_path_length: Discount factor for the cumulative return.
+        :param max_path_length: Maximum length of the trajectory.
         :param qf_weight_decay: Weight decay factor for parameters of the Q function.
         :param qf_update_method: Online optimization method for training Q function.
         :param qf_learning_rate: Learning rate for training Q function.
@@ -137,6 +138,7 @@ class DDPG(RLAlgorithm):
         :param include_horizon_terminal_transitions: whether to include transitions with terminal=True because the
         horizon was reached. This might make the Q value back up less stable for certain tasks.
         :param plot: Whether to visualize the policy performance after each eval_interval.
+        :param pause_for_plot: Whether to pause before continuing when plotting.
         :return:
         """
         self.env = env
@@ -169,6 +171,7 @@ class DDPG(RLAlgorithm):
         self.n_updates_per_sample = n_updates_per_sample
         self.include_horizon_terminal_transitions = include_horizon_terminal_transitions
         self.plot = plot
+        self.pause_for_plot = pause_for_plot
 
         self.qf_loss_averages = []
         self.policy_surr_averages = []
@@ -253,6 +256,11 @@ class DDPG(RLAlgorithm):
                 logger.save_itr_params(epoch, params)
             logger.dump_tabular(with_prefix=False)
             logger.pop_prefix()
+            if self.plot:
+                self.update_plot()
+                if self.pause_for_plot:
+                    raw_input("Plotting evaluation run: Press Enter to "
+                              "continue...")
         self.env.terminate()
         self.policy.terminate()
 
@@ -430,6 +438,10 @@ class DDPG(RLAlgorithm):
         self.q_averages = []
         self.y_averages = []
         self.es_path_returns = []
+
+    def update_plot(self):
+        if self.plot:
+            plotter.update_plot(self.policy, self.max_path_length)
 
     def get_epoch_snapshot(self, epoch):
         return dict(
