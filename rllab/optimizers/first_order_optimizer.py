@@ -58,7 +58,7 @@ class FirstOrderOptimizer(Serializable):
         self._target = target
 
         updates = self._update_method(loss, target.get_params(trainable=True))
-        updates = OrderedDict([(k, v.astype(k.dtype)) for k, v in updates.items()])
+        updates = OrderedDict([(k, v.astype(k.dtype)) for k, v in list(updates.items())])
 
         if extra_inputs is None:
             extra_inputs = list()

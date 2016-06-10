@@ -121,5 +121,5 @@ for i_itr in range(n_itr):
     returns = np.concatenate([p["returns"] for p in paths])
 
     f_train(observations, actions, returns)
-    print('Average Return:', np.mean([sum(p["rewards"]) for p in paths]))
-    print('total step count', step_count)
+    print(('Average Return:', np.mean([sum(p["rewards"]) for p in paths])))
+    print(('total step count', step_count))

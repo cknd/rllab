@@ -165,7 +165,7 @@ def doit(mode):
 
         f_train(observations, actions, advantages)
         avgr =  np.mean([sum(p["rewards"]) for p in paths])
-        print('Average Return:',avgr)
+        print(('Average Return:',avgr))
         results.append(avgr)
     return results
 

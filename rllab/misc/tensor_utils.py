@@ -88,7 +88,7 @@ def truncate_tensor_list(tensor_list, truncated_len):
 
 def truncate_tensor_dict(tensor_dict, truncated_len):
     ret = dict()
-    for k, v in tensor_dict.items():
+    for k, v in list(tensor_dict.items()):
         if isinstance(v, dict):
             ret[k] = truncate_tensor_dict(v, truncated_len)
         else:

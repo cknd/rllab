@@ -53,7 +53,7 @@ class SimpleMessage(object):
         self.logger = logger
 
     def __enter__(self):
-        print(self.msg)
+        print((self.msg))
         self.tstart = time.time()
 
     def __exit__(self, etype, *args):
@@ -72,7 +72,7 @@ class Message(object):
 
     def __enter__(self):
         global MESSAGE_DEPTH  # pylint: disable=W0603
-        print(colorize('\t' * MESSAGE_DEPTH + '=: ' + self.msg, 'magenta'))
+        print((colorize('\t' * MESSAGE_DEPTH + '=: ' + self.msg, 'magenta')))
         self.tstart = time.time()
         MESSAGE_DEPTH += 1
 
@@ -80,7 +80,7 @@ class Message(object):
         global MESSAGE_DEPTH  # pylint: disable=W0603
         MESSAGE_DEPTH -= 1
         maybe_exc = "" if etype is None else " (with exception)"
-        print(colorize('\t' * MESSAGE_DEPTH + "done%s in %.3f seconds" % (maybe_exc, time.time() - self.tstart), 'magenta'))
+        print((colorize('\t' * MESSAGE_DEPTH + "done%s in %.3f seconds" % (maybe_exc, time.time() - self.tstart), 'magenta')))
 
 
 def prefix_log(prefix, logger=log):
@@ -124,7 +124,7 @@ def tweakval(val, identifier):
     if not identifier:
         raise ValueError('Must provide an identifier for tweakval to work')
     args = collect_args()
-    for k, v in args.items():
+    for k, v in list(args.items()):
         stripped = k.replace('-', '_')
         if stripped == identifier:
             log('replacing %s in %s with %s' % (stripped, str(val), str(v)))
@@ -165,7 +165,7 @@ def tweakfun(fun, alt=None):
         meta = getattr(fun.__init__, '__tweak_type_hint_meta__', {})
     else:
         meta = getattr(fun, '__tweak_type_hint_meta__', {})
-    for k, v in args.items():
+    for k, v in list(args.items()):
         if k.startswith(cmd_prefix):
             stripped = k[len(cmd_prefix):].replace('-', '_')
             if stripped in meta:

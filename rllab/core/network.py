@@ -283,7 +283,7 @@ class ConvNetwork(object):
             l_in = L.InputLayer(shape=(None,) + input_shape, input_var=input_var)
             l_hid = l_in
         for idx, conv_filter, filter_size, stride, pad in zip(
-                range(len(conv_filters)),
+                list(range(len(conv_filters))),
                 conv_filters,
                 conv_filter_sizes,
                 conv_strides,

@@ -15,7 +15,7 @@ def _worker_init(G, id):
 
 
 def initialize(n_parallel):
-    print("parallel_sampler:initialize n_parallel", n_parallel)
+    print(("parallel_sampler:initialize n_parallel", n_parallel))
     singleton_pool.initialize(n_parallel)
     singleton_pool.run_each(_worker_init, [(id,) for id in range(singleton_pool.n_parallel)])
 
@@ -134,7 +134,7 @@ def truncate_paths(paths, max_samples):
         last_path = paths.pop(-1)
         truncated_last_path = dict()
         truncated_len = len(last_path["rewards"]) - (total_n_samples - max_samples)
-        for k, v in last_path.items():
+        for k, v in list(last_path.items()):
             if k in ["observations", "actions", "rewards"]:
                 truncated_last_path[k] = tensor_utils.truncate_tensor_list(v, truncated_len)
             elif k in ["env_infos", "agent_infos"]:

@@ -41,5 +41,5 @@ for rep in range(5):
     print(mean_avg_return_all_iterations)
     results.append(mean_avg_return_all_iterations)
 
-print('final avg', np.mean(results))
+print(('final avg', np.mean(results)))
 

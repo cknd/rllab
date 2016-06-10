@@ -117,4 +117,4 @@ for _ in range(n_itr):
     returns = np.concatenate([p["returns"] for p in paths])
 
     f_train(observations, actions, returns)
-    print('Average Return:', np.mean([sum(p["rewards"]) for p in paths]))
+    print(('Average Return:', np.mean([sum(p["rewards"]) for p in paths])))

@@ -46,9 +46,9 @@ class Experiment(object):
 
     def _flatten_params(self, params, depth=2):
         flat_params = dict()
-        for k, v in params.items():
+        for k, v in list(params.items()):
             if isinstance(v, dict) and depth != 0:
-                for subk, subv in self._flatten_params(v, depth=depth-1).items():
+                for subk, subv in list(self._flatten_params(v, depth=depth-1).items()):
                     if subk == "_name":
                         flat_params[k] = subv
                     else:
@@ -74,11 +74,11 @@ class ExperimentDatabase(object):
         with open(progress_file, 'rb') as csvfile:
             reader = csv.DictReader(csvfile)
             for row in reader:
-                for k, v in row.items():
+                for k, v in list(row.items()):
                     if k not in entries:
                         entries[k] = []
                     entries[k].append(float(v))
-        entries = dict([(k, np.array(v)) for k, v in entries.items()])
+        entries = dict([(k, np.array(v)) for k, v in list(entries.items())])
         return entries
 
     def _read_params(self, params_file):
@@ -117,7 +117,7 @@ class ExperimentDatabase(object):
             if len(exp_color_keys) > len(color_pool):
                 raise NotImplementedError
             for exp_color_key, color in zip(exp_color_keys, color_pool):
-                print("%s: %s" % (str(exp_color_key), color))
+                print(("%s: %s" % (str(exp_color_key), color)))
             color_map = dict(list(zip(exp_color_keys, color_pool)))
         used_legends = []
         legend_list = []
@@ -146,7 +146,7 @@ class ExperimentDatabase(object):
         for exp in self._experiments:
             exp_params = exp.flat_params
             match = True
-            for key, val in kwargs.items():
+            for key, val in list(kwargs.items()):
                 if exp_params.get(key, None) != val:
                     match = False
                     break

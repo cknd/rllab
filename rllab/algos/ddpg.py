@@ -212,7 +212,7 @@ class DDPG(RLAlgorithm):
         for epoch in range(self.n_epochs):
             logger.push_prefix('epoch #%d | ' % epoch)
             logger.log("Training started")
-            for epoch_itr in pyprind.prog_bar(range(self.epoch_length)):
+            for epoch_itr in pyprind.prog_bar(list(range(self.epoch_length))):
                 # Execute policy
                 if terminal:  # or path_length > self.max_path_length:
                     # Note that if the last time step ends an episode, the very
@@ -259,7 +259,7 @@ class DDPG(RLAlgorithm):
             if self.plot:
                 self.update_plot()
                 if self.pause_for_plot:
-                    raw_input("Plotting evaluation run: Press Enter to "
+                    input("Plotting evaluation run: Press Enter to "
                               "continue...")
         self.env.terminate()
         self.policy.terminate()

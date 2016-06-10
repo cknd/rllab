@@ -169,7 +169,7 @@ def check_nan(exp):
 def get_plot_instruction(plot_key, split_key=None, group_key=None, filters=None, use_median=False,
                          only_show_best=False, gen_eps=False, clip_plot_value=None, plot_width=None,
                          plot_height=None, filter_nan=False):
-    print(plot_key, split_key, group_key, filters)
+    print((plot_key, split_key, group_key, filters))
     if filter_nan:
         nonnan_exps_data = list(filter(check_nan, exps_data))
         selector = core.Selector(nonnan_exps_data)
@@ -177,7 +177,7 @@ def get_plot_instruction(plot_key, split_key=None, group_key=None, filters=None,
         selector = core.Selector(exps_data)
     if filters is None:
         filters = dict()
-    for k, v in filters.items():
+    for k, v in list(filters.items()):
         selector = selector.where(k, str(v))
     # print selector._filters
     if split_key is not None:
@@ -247,11 +247,11 @@ def get_plot_instruction(plot_key, split_key=None, group_key=None, filters=None,
                                 (k, v) for k, v in zip(distinct_params_k, distinct_params_v)]
                             distinct_params_kv_string = str(
                                 distinct_params_kv).replace('), ', ')\t')
-                            print(
-                                '{}\t{}\t{}'.format(regret, len(progresses), distinct_params_kv_string))
+                            print((
+                                '{}\t{}\t{}'.format(regret, len(progresses), distinct_params_kv_string)))
 
-                    print(group_selector._filters)
-                    print('best regret: {}'.format(best_regret))
+                    print((group_selector._filters))
+                    print(('best regret: {}'.format(best_regret)))
                     # -----------------------
                     if best_regret != -np.inf:
                         progresses = [
@@ -434,7 +434,7 @@ if __name__ == "__main__":
     parser.add_argument("data_path", type=str)
     parser.add_argument("--debug", action="store_true", default=False)
     args = parser.parse_args(sys.argv[1:])
-    print("Importing data from {path}...".format(path=args.data_path))
+    print(("Importing data from {path}...".format(path=args.data_path)))
     reload_data()
     port = 5000
     # url = "http://0.0.0.0:{0}".format(port)

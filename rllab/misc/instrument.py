@@ -462,9 +462,9 @@ def to_local_command(params, script=osp.join(config.PROJECT_PATH, 'scripts/run_e
     command = "python " + script
     if use_gpu:
         command = "THEANO_FLAGS='device=gpu' " + command
-    for k, v in params.items():
+    for k, v in list(params.items()):
         if isinstance(v, dict):
-            for nk, nv in v.items():
+            for nk, nv in list(v.items()):
                 if str(nk) == "_name":
                     command += "  --%s %s" % (k, _to_param_val(nv))
                 else:
@@ -495,7 +495,7 @@ def to_docker_command(params, docker_image, script='scripts/run_experiment.py', 
         command_prefix = "docker run"
     docker_log_dir = config.DOCKER_LOG_DIR
     if env is not None:
-        for k, v in env.items():
+        for k, v in list(env.items()):
             command_prefix += " -e \"{k}={v}\"".format(k=k, v=v)
     command_prefix += " -v {local_log_dir}:{docker_log_dir}".format(local_log_dir=log_dir,
                                                                     docker_log_dir=docker_log_dir)
@@ -654,7 +654,7 @@ def launch_ec2(params_list, exp_prefix, docker_image, code_full_path,
         instance_args["MinCount"] = 1
         instance_args["MaxCount"] = 1
     print("************************************************************")
-    print(instance_args["UserData"])
+    print((instance_args["UserData"]))
     print("************************************************************")
     if aws_config["spot"]:
         instance_args["UserData"] = base64.b64encode(instance_args["UserData"])
@@ -722,7 +722,7 @@ def s3_sync_code(config, dry=False):
            [".", full_path]
     caching_cmds = ["aws", "s3", "sync"] + \
                    [full_path, cache_path]
-    print(cache_cmds, cmds, caching_cmds)
+    print((cache_cmds, cmds, caching_cmds))
     if not dry:
         subprocess.check_call(cache_cmds)
         subprocess.check_call(cmds)
@@ -805,7 +805,7 @@ def to_lab_kube_pod(
     pod_name = config.KUBE_PREFIX + params["exp_name"]
     # underscore is not allowed in pod names
     pod_name = pod_name.replace("_", "-")
-    print("Is gpu: ", is_gpu)
+    print(("Is gpu: ", is_gpu))
     if not is_gpu:
         return {
             "apiVersion": "v1",
@@ -921,7 +921,7 @@ def concretize(maybe_stub):
     elif isinstance(maybe_stub, dict):
         # make sure that there's no hidden caveat
         ret = dict()
-        for k, v in maybe_stub.items():
+        for k, v in list(maybe_stub.items()):
             ret[concretize(k)] = concretize(v)
         return ret
     elif isinstance(maybe_stub, (list, tuple)):

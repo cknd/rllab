@@ -2,7 +2,7 @@
 from path import Path
 import sys
 import pickle as pickle
-import random
+from . import random
 from rllab.misc.console import colorize, Message
 from collections import OrderedDict
 import numpy as np
@@ -35,7 +35,7 @@ def compact(x):
     all None elements; otherwise it returns the input itself.
     """
     if isinstance(x, dict):
-        return dict((k, v) for k, v in x.items() if v is not None)
+        return dict((k, v) for k, v in list(x.items()) if v is not None)
     elif isinstance(x, list):
         return [elem for elem in x if elem is not None]
     return x
@@ -304,7 +304,7 @@ def print_lasagne_layer(layer, prefix=""):
     if getattr(layer, 'nonlinearity', None):
         params += ", nonlinearity=" + layer.nonlinearity.__name__
     params = params[2:]
-    print(prefix + layer.__class__.__name__ + "[" + params + "]")
+    print((prefix + layer.__class__.__name__ + "[" + params + "]"))
     if hasattr(layer, 'input_layers') and layer.input_layers is not None:
         [print_lasagne_layer(x, prefix + "  ") for x in layer.input_layers]
     elif hasattr(layer, 'input_layer') and layer.input_layer is not None:

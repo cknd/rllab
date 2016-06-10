@@ -26,14 +26,14 @@ def load_progress(progress_csv_path):
     with open(progress_csv_path, 'rb') as csvfile:
         reader = csv.DictReader(csvfile)
         for row in reader:
-            for k, v in row.items():
+            for k, v in list(row.items()):
                 if k not in entries:
                     entries[k] = []
                 try:
                     entries[k].append(float(v))
                 except:
                     entries[k].append(0.)
-    entries = dict([(k, np.array(v)) for k, v in entries.items()])
+    entries = dict([(k, np.array(v)) for k, v in list(entries.items())])
     return entries
 
 
@@ -43,7 +43,7 @@ def to_json(stub_object):
     if isinstance(stub_object, StubObject):
         assert len(stub_object.args) == 0
         data = dict()
-        for k, v in stub_object.kwargs.items():
+        for k, v in list(stub_object.kwargs.items()):
             data[k] = to_json(v)
         data["_name"] = stub_object.proxy_class.__module__ + \
             "." + stub_object.proxy_class.__name__
@@ -58,10 +58,10 @@ def to_json(stub_object):
 
 def flatten_dict(d):
     flat_params = dict()
-    for k, v in d.items():
+    for k, v in list(d.items()):
         if isinstance(v, dict):
             v = flatten_dict(v)
-            for subk, subv in flatten_dict(v).items():
+            for subk, subv in list(flatten_dict(v).items()):
                 flat_params[k + "." + subk] = subv
         else:
             flat_params[k] = v
@@ -154,7 +154,7 @@ class Selector(object):
         return list(filter(self._check_exp, self._exps_data))
 
     def iextract(self):
-        return filter(self._check_exp, self._exps_data)
+        return list(filter(self._check_exp, self._exps_data))
 
 
 # Taken from plot.ly

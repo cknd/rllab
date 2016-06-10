@@ -91,7 +91,7 @@ def doit(mode):
         paths = []
 
         for ep_nr in range(N):
-            print("episode", ep_nr, "in iteration", itr_nr )
+            print(("episode", ep_nr, "in iteration", itr_nr ))
             observations = []
             actions = []
             rewards = []
@@ -153,7 +153,7 @@ def doit(mode):
 
         f_train(observations, actions, advantages)
         avgr =  np.mean([sum(p["rewards"]) for p in paths])
-        print('Average Return:',avgr)
+        print(('Average Return:',avgr))
         results.append(avgr)
         for p in paths:
             rewards_per_episode.append(p['rewards'])
