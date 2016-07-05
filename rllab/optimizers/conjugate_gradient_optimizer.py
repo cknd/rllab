@@ -58,7 +58,6 @@ class ConjugateGradientOptimizer(Serializable):
         :param extra_inputs: A list of symbolic variables as extra inputs which should not be subsampled
         :return: No return value.
         """
-
         inputs = tuple(inputs)
         if extra_inputs is None:
             extra_inputs = tuple()

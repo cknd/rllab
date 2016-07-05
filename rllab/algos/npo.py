@@ -69,12 +69,14 @@ class NPO(BatchPolopt):
         dist_info_vars = self.policy.dist_info_sym(obs_var, state_info_vars)
         kl = dist.kl_sym(old_dist_info_vars, dist_info_vars)
         lr = dist.likelihood_ratio_sym(action_var, old_dist_info_vars, dist_info_vars)
+        lr.name='likelihood ratio'
         if is_recurrent:
             mean_kl = TT.sum(kl * valid_var) / TT.sum(valid_var)
             surr_loss = - TT.sum(lr * advantage_var * valid_var) / TT.sum(valid_var)
         else:
             mean_kl = TT.mean(kl)
             surr_loss = - TT.mean(lr * advantage_var)
+        mean_kl.name='mean_kl'
 
         input_list = [
                          obs_var,
@@ -83,7 +85,6 @@ class NPO(BatchPolopt):
                      ] + state_info_vars_list + old_dist_info_vars_list
         if is_recurrent:
             input_list.append(valid_var)
-
         self.optimizer.update_opt(
             loss=surr_loss,
             target=self.policy,
