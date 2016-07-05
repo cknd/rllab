@@ -78,11 +78,13 @@ class BatchPolopt(RLAlgorithm):
     def train(self):
         self.start_worker()
         self.init_opt()
+        rets = []
         for itr in range(self.start_itr, self.n_itr):
             with logger.prefix('itr #%d | ' % itr):
                 paths = self.obtain_samples(itr)
                 print(("BatchPolopt:train len(paths)", len(paths)))
-                samples_data = self.process_samples(itr, paths)
+                samples_data, total_returns_per_episode = self.process_samples(itr, paths)
+                rets.append(total_returns_per_episode)
                 self.log_diagnostics(paths)
                 self.optimize_policy(itr, samples_data)
                 logger.log("saving snapshot...")
@@ -99,6 +101,7 @@ class BatchPolopt(RLAlgorithm):
                                   "continue..."))
 
         self.shutdown_worker()
+        return rets
 
     def log_diagnostics(self, paths):
         self.env.log_diagnostics(paths)
@@ -259,6 +262,7 @@ class BatchPolopt(RLAlgorithm):
         logger.record_tabular('AverageDiscountedReturn',
                               average_discounted_return)
         logger.record_tabular('AverageReturn', np.mean(undiscounted_returns))
+        total_returns_per_episode = undiscounted_returns
         logger.record_tabular('ExplainedVariance', ev)
         logger.record_tabular('NumTrajs', len(paths))
         logger.record_tabular('Entropy', ent)
@@ -267,4 +271,4 @@ class BatchPolopt(RLAlgorithm):
         logger.record_tabular('MaxReturn', np.max(undiscounted_returns))
         logger.record_tabular('MinReturn', np.min(undiscounted_returns))
 
-        return samples_data
+        return samples_data, total_returns_per_episode

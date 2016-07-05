@@ -1,3 +1,6 @@
+import numpy as np
+from matplotlib import pyplot as plt
+
 from rllab.algos.trpo import TRPO
 from rllab.baselines.linear_feature_baseline import LinearFeatureBaseline
 from rllab.envs.box2d.cartpole_env import CartpoleEnv
@@ -24,4 +27,13 @@ algo = TRPO(
     discount=0.99,
     step_size=0.1,
 )
-algo.train()
+
+rets_per_episode_batchwise = algo.train()
+rets_per_episode = [x for lst in rets_per_episode_batchwise for x in lst]
+
+
+
+print('mean return over all episodes', np.mean(rets_per_episode))
+
+plt.plot(rets_per_episode, alpha=0.3)
+plt.savefig('/tmp/upsi/test_rllab/trpo_cartpole.png')
